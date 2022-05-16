@@ -17,7 +17,7 @@ namespace LayeredAttributesTests
         public void GetCurrentAttribute_byDefault_returnsBaseAttribute()
         {
             // Arrange
-            var attributes = new SampleLayeredAttributes(DefaultAttributeKey, DefaultAttributeValue);
+            var attributes = new SampleLayeredAttributes();
             
             // Assert
             Assert.AreEqual(DefaultAttributeValue, attributes.GetCurrentAttribute(DefaultAttributeKey));
