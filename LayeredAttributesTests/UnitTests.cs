@@ -117,9 +117,9 @@ namespace LayeredAttributesTests
             var powerSet = CreatePowerSet();
             powerSet.Layer = 0;
             var toughnessSet = CreateToughnessSet();
-            toughnessSet.Layer = 2;
+            toughnessSet.Layer = 1;
             var powerAdd = CreatePowerAdd();
-            powerAdd.Layer = 1;
+            powerAdd.Layer = 2;
             var toughnessAdd = CreateToughnessAdd();
             toughnessAdd.Layer = 3;
             
@@ -149,14 +149,64 @@ namespace LayeredAttributesTests
             toughnessSet.Layer = 3;
 
             // Act
-            attributes.AddLayeredEffect(CreatePowerAdd());
-            attributes.AddLayeredEffect(CreateToughnessAdd());
-            attributes.AddLayeredEffect(CreatePowerSet());
-            attributes.AddLayeredEffect(CreateToughnessSet());
+            attributes.AddLayeredEffect(powerAdd);
+            attributes.AddLayeredEffect(toughnessAdd);
+            attributes.AddLayeredEffect(powerSet);
+            attributes.AddLayeredEffect(toughnessSet);
 
             // Assert
             Assert.AreEqual(0, attributes.GetCurrentAttribute(AttributeKey.Power));
             Assert.AreEqual(1, attributes.GetCurrentAttribute(AttributeKey.Toughness));
+        }
+        
+        [Test]
+        public void AddLayeredEffect_WithSetThenAddDescendingLayer_ReturnsOverrides()
+        {
+            // Arrange
+            var attributes = CreateWaterElemental();
+            var powerSet = CreatePowerSet();
+            powerSet.Layer = 3;
+            var toughnessSet = CreateToughnessSet();
+            toughnessSet.Layer = 2;
+            var powerAdd = CreatePowerAdd();
+            powerAdd.Layer = 1;
+            var toughnessAdd = CreateToughnessAdd();
+            toughnessAdd.Layer = 0;
+            
+            // Act
+            attributes.AddLayeredEffect(powerSet);
+            attributes.AddLayeredEffect(toughnessSet);
+            attributes.AddLayeredEffect(powerAdd);
+            attributes.AddLayeredEffect(toughnessAdd);
+            
+            // Assert
+            Assert.AreEqual(0, attributes.GetCurrentAttribute(AttributeKey.Power));
+            Assert.AreEqual(1, attributes.GetCurrentAttribute(AttributeKey.Toughness));
+        }
+        
+        [Test]
+        public void AddLayeredEffect_WithAddThenSetDesccending_ModifiesSetValues()
+        {
+            // Arrange
+            var attributes = CreateWaterElemental();
+            var powerAdd = CreatePowerAdd();
+            powerAdd.Layer = 3;
+            var toughnessAdd = CreateToughnessAdd();
+            toughnessAdd.Layer = 2;
+            var powerSet = CreatePowerSet();
+            powerSet.Layer = 1;
+            var toughnessSet = CreateToughnessSet();
+            toughnessSet.Layer = 0;
+
+            // Act
+            attributes.AddLayeredEffect(powerAdd);
+            attributes.AddLayeredEffect(toughnessAdd);
+            attributes.AddLayeredEffect(powerSet);
+            attributes.AddLayeredEffect(toughnessSet);
+
+            // Assert
+            Assert.AreEqual(2, attributes.GetCurrentAttribute(AttributeKey.Power));
+            Assert.AreEqual(2, attributes.GetCurrentAttribute(AttributeKey.Toughness));
         }
         
         private static SampleLayeredAttributes CreateWaterElemental()
