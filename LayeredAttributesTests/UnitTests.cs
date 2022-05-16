@@ -29,6 +29,21 @@ namespace LayeredAttributesTests
             Assert.AreEqual(5, attributes.GetCurrentAttribute(AttributeKey.Power));
             Assert.AreEqual(4, attributes.GetCurrentAttribute(AttributeKey.Toughness));
         }
+
+        [Test]
+        public void AddLayeredEffect_WithAdds_ReturnsTotal()
+        {
+            // Arrange
+            var attributes = CreateWaterElemental();
+            
+            // Act
+            attributes.AddLayeredEffect(CreatePowerAdd());
+            attributes.AddLayeredEffect(CreateToughnessAdd());
+            
+            // Assert
+            Assert.AreEqual(7, attributes.GetCurrentAttribute(AttributeKey.Power));
+            Assert.AreEqual(5, attributes.GetCurrentAttribute(AttributeKey.Toughness));
+        }
         
         private static SampleLayeredAttributes CreateWaterElemental()
         {
@@ -37,5 +52,21 @@ namespace LayeredAttributesTests
             attributes.SetBaseAttribute(AttributeKey.Toughness, 4);
             return attributes;
         }
+
+        private static LayeredEffectDefinition CreatePowerAdd() => new()
+        {
+            Attribute = AttributeKey.Power,
+            Operation = EffectOperation.Add,
+            Modification = 2,
+            Layer = 0
+        };
+        
+        private static LayeredEffectDefinition CreateToughnessAdd() => new()
+        {
+            Attribute = AttributeKey.Toughness,
+            Operation = EffectOperation.Add,
+            Modification = 1,
+            Layer = 0
+        };
     }
 }
