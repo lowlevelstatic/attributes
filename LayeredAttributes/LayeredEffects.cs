@@ -23,5 +23,7 @@ namespace LayeredAttributes
         public int ApplyEffects(AttributeKey attKey, int attribute) => m_definitions
             .Where(definition => definition.Attribute == attKey)
             .Aggregate(attribute, LayeredAttributesUtils.ApplyLayeredEffect);
+
+        public void Clear() => m_definitions.Clear();
     }
 }

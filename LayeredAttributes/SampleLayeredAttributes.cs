@@ -1,5 +1,3 @@
-using System;
-
 namespace LayeredAttributes
 {
     public class SampleLayeredAttributes : ILayeredAttributes
@@ -14,9 +12,6 @@ namespace LayeredAttributes
 
         public void AddLayeredEffect(LayeredEffectDefinition effect) => m_layeredEffects.AddEffect(effect);
 
-        public void ClearLayeredEffects()
-        {
-            throw new NotImplementedException();
-        }
+        public void ClearLayeredEffects() => m_layeredEffects.Clear();
     }
 }
