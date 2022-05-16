@@ -5,11 +5,6 @@ namespace LayeredAttributesTests
 {
     public class Tests
     {
-        [SetUp]
-        public void Setup()
-        {
-        }
-
         [Test]
         public void GetCurrentAttribute_Uninitialized_ThrowsException()
         {
@@ -26,15 +21,21 @@ namespace LayeredAttributesTests
         public void GetCurrentAttribute_WithBaseAttribute_ReturnsBaseAttribute()
         {
             // Arrange
-            var attributes = new SampleLayeredAttributes();
+            var attributes = CreateWaterElemental();
 
             // Act
-            attributes.SetBaseAttribute(AttributeKey.Power, 5);
-            attributes.SetBaseAttribute(AttributeKey.Toughness, 4);
             
             // Assert
             Assert.AreEqual(5, attributes.GetCurrentAttribute(AttributeKey.Power));
             Assert.AreEqual(4, attributes.GetCurrentAttribute(AttributeKey.Toughness));
+        }
+        
+        private static SampleLayeredAttributes CreateWaterElemental()
+        {
+            var attributes = new SampleLayeredAttributes();
+            attributes.SetBaseAttribute(AttributeKey.Power, 5);
+            attributes.SetBaseAttribute(AttributeKey.Toughness, 4);
+            return attributes;
         }
     }
 }
