@@ -59,7 +59,7 @@ namespace LayeredAttributesTests
             Assert.AreEqual(7, attributes.GetCurrentAttribute(AttributeKey.Power));
             Assert.AreEqual(5, attributes.GetCurrentAttribute(AttributeKey.Toughness));
         }
-        
+
         [Test]
         public void AddLayeredEffect_WithSubs_ReturnsTotal()
         {
@@ -73,6 +73,40 @@ namespace LayeredAttributesTests
             // Assert
             Assert.AreEqual(3, attributes.GetCurrentAttribute(AttributeKey.Power));
             Assert.AreEqual(2, attributes.GetCurrentAttribute(AttributeKey.Toughness));
+        }
+        
+        [Test]
+        public void AddLayeredEffect_WithSetThenAdd_ModifiesSetValues()
+        {
+            // Arrange
+            var attributes = CreateWaterElemental();
+            
+            // Act
+            attributes.AddLayeredEffect(CreatePowerSet());
+            attributes.AddLayeredEffect(CreateToughnessSet());
+            attributes.AddLayeredEffect(CreatePowerAdd());
+            attributes.AddLayeredEffect(CreateToughnessAdd());
+            
+            // Assert
+            Assert.AreEqual(2, attributes.GetCurrentAttribute(AttributeKey.Power));
+            Assert.AreEqual(2, attributes.GetCurrentAttribute(AttributeKey.Toughness));
+        }
+        
+        [Test]
+        public void AddLayeredEffect_WithAddThenSet_ReturnsOverrides()
+        {
+            // Arrange
+            var attributes = CreateWaterElemental();
+            
+            // Act
+            attributes.AddLayeredEffect(CreatePowerAdd());
+            attributes.AddLayeredEffect(CreateToughnessAdd());
+            attributes.AddLayeredEffect(CreatePowerSet());
+            attributes.AddLayeredEffect(CreateToughnessSet());
+
+            // Assert
+            Assert.AreEqual(0, attributes.GetCurrentAttribute(AttributeKey.Power));
+            Assert.AreEqual(1, attributes.GetCurrentAttribute(AttributeKey.Toughness));
         }
         
         private static SampleLayeredAttributes CreateWaterElemental()
