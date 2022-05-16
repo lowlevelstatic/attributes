@@ -5,22 +5,21 @@ namespace LayeredAttributesTests
 {
     public class Tests
     {
-        private const AttributeKey DefaultAttributeKey = AttributeKey.Power;
-        private const int DefaultAttributeValue = 1;
-        
         [SetUp]
         public void Setup()
         {
         }
 
         [Test]
-        public void GetCurrentAttribute_byDefault_returnsBaseAttribute()
+        public void GetCurrentAttribute_Uninitialized_ThrowsException()
         {
             // Arrange
             var attributes = new SampleLayeredAttributes();
+
+            // Act
             
             // Assert
-            Assert.AreEqual(DefaultAttributeValue, attributes.GetCurrentAttribute(DefaultAttributeKey));
+            Assert.That(() => attributes.GetCurrentAttribute(AttributeKey.Power), Throws.ArgumentException);
         }
     }
 }
