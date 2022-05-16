@@ -18,7 +18,7 @@ namespace LayeredAttributesTests
         }
         
         [Test]
-        public void GetCurrentAttribute_WithBaseAttribute_ReturnsBaseAttribute()
+        public void GetCurrentAttribute_WithBaseAttribute_ReturnsBaseAttributes()
         {
             // Arrange
             var attributes = CreateWaterElemental();
@@ -185,7 +185,7 @@ namespace LayeredAttributesTests
         }
         
         [Test]
-        public void AddLayeredEffect_WithAddThenSetDesccending_ModifiesSetValues()
+        public void AddLayeredEffect_WithAddThenSetDescending_ModifiesSetValues()
         {
             // Arrange
             var attributes = CreateWaterElemental();
@@ -207,6 +207,22 @@ namespace LayeredAttributesTests
             // Assert
             Assert.AreEqual(2, attributes.GetCurrentAttribute(AttributeKey.Power));
             Assert.AreEqual(2, attributes.GetCurrentAttribute(AttributeKey.Toughness));
+        }
+
+        [Test]
+        public void ClearLayeredEffects_AfterAddEffects_ReturnsBaseAttributes()
+        {
+            // Arrange
+            var attributes = CreateWaterElemental();
+            
+            // Act
+            attributes.AddLayeredEffect(CreatePowerAdd());
+            attributes.AddLayeredEffect(CreateToughnessAdd());
+            attributes.ClearLayeredEffects();
+            
+            // Assert
+            Assert.AreEqual(5, attributes.GetCurrentAttribute(AttributeKey.Power));
+            Assert.AreEqual(4, attributes.GetCurrentAttribute(AttributeKey.Toughness));
         }
         
         private static SampleLayeredAttributes CreateWaterElemental()
