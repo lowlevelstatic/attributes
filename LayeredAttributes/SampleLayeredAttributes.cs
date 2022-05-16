@@ -19,8 +19,7 @@ namespace LayeredAttributes
 
             return m_effectDefinitions
                 .Where(definition => definition.Attribute == attKey)
-                .Select(definition => definition.Modification)
-                .Aggregate(baseAttribute, (attribute, modification) => attribute + modification);
+                .Aggregate(baseAttribute, LayeredAttributesUtils.ApplyLayeredEffect);
         }
 
         public void AddLayeredEffect(LayeredEffectDefinition effect) => m_effectDefinitions.Add(effect);
