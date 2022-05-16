@@ -9,7 +9,7 @@ namespace LayeredAttributes
             {
                 EffectOperation.Invalid => throw new ArgumentException(
                     $"Invalid operation {definition.Operation}", nameof(definition.Operation)),
-                EffectOperation.Set => attribute,
+                EffectOperation.Set => definition.Modification,
                 EffectOperation.Add => attribute + definition.Modification,
                 EffectOperation.Subtract => attribute - definition.Modification,
                 EffectOperation.Multiply => attribute * definition.Modification,
